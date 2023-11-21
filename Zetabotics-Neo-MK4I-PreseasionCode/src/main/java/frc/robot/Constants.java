@@ -42,25 +42,25 @@ public final class Constants {
     public static final double kBackLeftTurnEncoderOffset = 0;
     public static final double kBackRightTurnEncoderOffset = 0;
 
-    public static final boolean kFrontLeftDriveMotorRev =  true;
-    public static final boolean kFrontRightDriveMotorRev =  true;
-    public static final boolean kBackLeftDriveMotorRev = true;
-    public static final boolean kBackRightDriveMotorRev =  true;
+    public static final boolean kFrontLeftDriveMotorRev =  false;
+    public static final boolean kFrontRightDriveMotorRev =  false;
+    public static final boolean kBackLeftDriveMotorRev = false;
+    public static final boolean kBackRightDriveMotorRev =  false;
 
     public static final boolean kFrontLeftTurnMotorRev =  true;
     public static final boolean kFrontRightTurnMotorRev =  true;
     public static final boolean kBackLeftTurnMotorRev = true;
     public static final boolean kBackRightTurnMotorRev =  true;
 
-    public static final boolean kFrontLeftDriveEncoderRev =  true;
-    public static final boolean kFrontRightDriveEncoderRev =  true;
-    public static final boolean kBackLeftDriveEncoderRev = true;
-    public static final boolean kBackRightDriveEncoderRev =  true;
+    public static final boolean kFrontLeftDriveEncoderRev =  false;
+    public static final boolean kFrontRightDriveEncoderRev =  false;
+    public static final boolean kBackLeftDriveEncoderRev = false;
+    public static final boolean kBackRightDriveEncoderRev =  false;
 
-    public static final boolean kFrontLeftTurnEncoderRev =  true;
-    public static final boolean kFrontRightTurnEncoderRev =  true;
-    public static final boolean kBackLeftTurnEncoderRev = true;
-    public static final boolean kBackRightTurnEncoderRev =  true;
+    public static final boolean kFrontLeftTurnEncoderRev =  false;
+    public static final boolean kFrontRightTurnEncoderRev =  false;
+    public static final boolean kBackLeftTurnEncoderRev = false;
+    public static final boolean kBackRightTurnEncoderRev =  false;
 
 
     public static final int kGyroId = 13;
