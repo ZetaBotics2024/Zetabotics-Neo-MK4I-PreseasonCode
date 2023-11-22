@@ -84,7 +84,7 @@ public final class Constants {
     public static final double kIModuleTurningController = 0.0001;
     public static final double kDModuleTurningController = .01;
 
-    public static final double kPostitionToleranceDegrees = .1;
+    public static final double kPostitionToleranceDegrees = .1;f
     public static final double kVelocityToleranceDegreesPerSec = 2.0;
 
     public static final double kMaxModuleAngularSpeedDegreesPerSecond =  30;

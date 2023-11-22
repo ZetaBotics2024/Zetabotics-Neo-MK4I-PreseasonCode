@@ -44,8 +44,7 @@ public class FieldOrientedDriveCommand extends CommandBase {
       Supplier<Rotation2d> robotAngleSupplier,
       DoubleSupplier translationXSupplier,
       DoubleSupplier translationYSupplier,
-      DoubleSupplier rotationSupplier,
-      IntSupplier lockedDirectionAngle) {
+      DoubleSupplier rotationSupplier) {
     this.m_driveSubsystem = m_driveSubsystem;
     this.robotAngleSupplier = robotAngleSupplier;
     this.translationXSupplier = translationXSupplier;

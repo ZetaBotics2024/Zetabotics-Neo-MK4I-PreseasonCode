@@ -80,16 +80,17 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     if (desiredChassisSpeeds != null) {
       SwerveModuleState[] desiredStates = SwerveDriveConstants.kDriveKinematics.toSwerveModuleStates(desiredChassisSpeeds);
+     
+      // If we're not trying to move, we lock the angles of the wheels
       if (desiredChassisSpeeds.vxMetersPerSecond == 0.0 && desiredChassisSpeeds.vyMetersPerSecond == 0.0
           && desiredChassisSpeeds.omegaRadiansPerSecond == 0.0) {
         SwerveModuleState[] currentStates = getModuleStates();
-        // Keep wheels at desired angle when stopped
         for(int i = 0; i < currentStates.length; i++) {
             desiredStates[i].angle = currentStates[i].angle;
         }
       }
 
-      // Positive should be counter clockwise.
+      // Positive angles should be counter clockwise.
       setModuleStates(desiredStates);
     }
     // Resets the desiredChassisSpeeds to null to stop it from "sticking" to the last states
@@ -115,29 +116,33 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public SwerveModulePosition[] getModulePositions() {
-    SwerveModulePosition[] positions = {this.frontLeftSwerveModule.getPosition(),
+    SwerveModulePosition[] positions = {
+        this.frontLeftSwerveModule.getPosition(),
         this.frontRightSwerveModule.getPosition(),
         this.backLeftSwerveModule.getPosition(),
-        this.backRightSwerveModule.getPosition()};
+        this.backRightSwerveModule.getPosition()
+    };
 
     return positions;
   }
   private SwerveModuleState[] getModuleStates() {
-    SwerveModuleState[] swerveModuleStates = {this.frontLeftSwerveModule.getState(),
+    SwerveModuleState[] swerveModuleStates = {
+        this.frontLeftSwerveModule.getState(),
         this.frontRightSwerveModule.getState(),
         this.backLeftSwerveModule.getState(),
-        this.backRightSwerveModule.getState()};
+        this.backRightSwerveModule.getState()
+      };
 
     return swerveModuleStates;
   }
   
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
-        desiredStates, SwerveDriveConstants.kMaxSpeedMetersPerSecond);
-        this.frontLeftSwerveModule.setDesiredState(desiredStates[0]);
-        this.frontRightSwerveModule.setDesiredState(desiredStates[1]);
-        this.backLeftSwerveModule.setDesiredState(desiredStates[2]);
-        this.backRightSwerveModule.setDesiredState(desiredStates[3]);     
+      desiredStates, SwerveDriveConstants.kMaxSpeedMetersPerSecond);
+    this.frontLeftSwerveModule.setDesiredState(desiredStates[0]);
+    this.frontRightSwerveModule.setDesiredState(desiredStates[1]);
+    this.backLeftSwerveModule.setDesiredState(desiredStates[2]);
+    this.backRightSwerveModule.setDesiredState(desiredStates[3]);     
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -156,7 +161,9 @@ public class DriveSubsystem extends SubsystemBase {
     return robotHeading;
   }
 
-  // Wrapper for the Gyro
+  /* 
+  Start of wrapper for the gyro
+  */
   public double getTurnRate() {
     return m_gyro.getRate();
   }
@@ -202,7 +209,9 @@ public class DriveSubsystem extends SubsystemBase {
     return this.m_gyro.getRotation2d();
   }
 
-    // End of Gyro Wrapper
+  /* 
+  End of gyro wrapper
+  */
 
   public void drive(ChassisSpeeds chassisSpeeds) {
     this.desiredChassisSpeeds = chassisSpeeds;

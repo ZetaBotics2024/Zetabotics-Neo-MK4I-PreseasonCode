@@ -51,7 +51,7 @@ public class RobotContainer {
       () -> -modifyAxis(m_driverController.getLeftY()) ,
       () -> -modifyAxis(m_driverController.getLeftX()) ,
       () -> -modifyAxis(m_driverController.getRightX()),
-      () -> m_driverController.getPOV());
+      );
 
     m_driveSubsystem.setDefaultCommand(fieldOrientedDriveCommand);
 

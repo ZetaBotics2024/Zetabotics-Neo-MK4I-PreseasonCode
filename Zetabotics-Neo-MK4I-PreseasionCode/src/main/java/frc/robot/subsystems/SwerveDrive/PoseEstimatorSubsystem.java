@@ -71,7 +71,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
       var layout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
       layout.setOrigin(originPosition);
       // The Pose Strategy may be incorrect
-      photonPoseEstimator = new PhotonPoseEstimator(layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, photonCamera,
+      photonPoseEstimator = new PhotonPoseEstimator(layout, PoseStrategy.MULTI_`TAG_PNP_ON_COPROCESSOR, photonCamera,
           Constants.VisionConstants.robotToCam);
       photonPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
     } catch (IOException e) {
@@ -86,7 +86,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
         SwerveDriveConstants.kDriveKinematics,
         m_driveSubsystem.getHeadingInRotation2d(),
         m_driveSubsystem.getModulePositions(),
-        new Pose2d(),//new Pose2d(1.83, 5.04, Rotation2d.fromDegrees(180)),
+        new Pose2d(),
         stateStdDevs,
         visionMeasurementStdDevs);
 
@@ -149,10 +149,11 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
     // double RMS = Math.sqrt((1.0 / (double) xValues.size() * summation));
     // System.out.println("RMS: " + RMS);
 
+    // If the pose estimator exists, we have a frame, and it's a new frame, and we're in the field, use the measurement
     if (photonPoseEstimator != null) {
       // Update pose estimator with the best visible target
       photonPoseEstimator.update().ifPresent(estimatedRobotPose -> {
-        var estimatedPose = estimatedRobotPose.estimatedPose;
+        var estimatedPose = estimatedRobotPose.estimatedPose; // TODO: Change var to the real deal
         // Make sure we have a new measurement, and that it's on the field
         if (estimatedRobotPose.timestampSeconds != previousPipelineTimestamp
             && estimatedPose.getX() > 0.0 && estimatedPose.getX() <= FieldConstants.kLength
@@ -165,6 +166,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
         }
       });
     }
+    
     SmartDashboard.putBoolean("In teleop", InTeleop.inTeleop);
     Pose2d dashboardPose = getCurrentPose();
     if (originPosition == OriginPosition.kRedAllianceWallRightSide) {
