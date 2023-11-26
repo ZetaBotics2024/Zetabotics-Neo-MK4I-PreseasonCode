@@ -84,7 +84,7 @@ public final class Constants {
     public static final double kIModuleTurningController = 0.0001;
     public static final double kDModuleTurningController = .01;
 
-    public static final double kPostitionToleranceDegrees = .1;f
+    public static final double kPostitionToleranceDegrees = .1;
     public static final double kVelocityToleranceDegreesPerSec = 2.0;
 
     public static final double kMaxModuleAngularSpeedDegreesPerSecond =  30;
@@ -113,20 +113,21 @@ public final class Constants {
     public static final double kNeoEncoderCPR = 4096;
     public static final double kMaxRPM = 5676;
     public static final double kWheelDiameterMeters = 0.1016;
-    public static final double kDriveGearReduction = 6.75/1;
-
+    public static final double kDriveGearRatio = 6.75/1;
+    public static final double kTurningGearRatio = 1/1; // TODO: Change to actully gear ratio
 
     public static final double kAbsoluteTurningEncoderCPRToDegrees = 
     (kAbsoluteTurningEncoderCPR / kAbsoluteTurningEncoderCPR) * 360;
 
-    public static final double kNeoEncoderCPRToDegrees = (kNeoEncoderCPR / kNeoEncoderCPR) * 360;
+    public static final double kRelitiveTurningEncoderCPRToDegrees = 
+    ((kNeoEncoderCPR / kNeoEncoderCPR) * 360) * kTurningGearRatio;
 
     public static final double kWheelDistancePerRotation = kWheelDiameterMeters * Math.PI;
 
-    public static final double kNeoEncoderCPRToMetersPerSecond = 10 / kNeoEncoderCPR / kDriveGearReduction  * kWheelDistancePerRotation;
+    public static final double kNeoEncoderCPRToMetersPerSecond = 10 / kNeoEncoderCPR / kDriveGearRatio  * kWheelDistancePerRotation;
 
     public static final double kDriveEncoderDistancePerPulse =
-        ((kWheelDiameterMeters * Math.PI) / kDriveGearReduction) / kNeoEncoderCPR;
+        ((kWheelDiameterMeters * Math.PI) / kDriveGearRatio) / kNeoEncoderCPR;
 
     public static final double kTurningEncoderRadiansPerPulse =
         // Assumes the encoders are on a 1:1 reduction with the module shaft.

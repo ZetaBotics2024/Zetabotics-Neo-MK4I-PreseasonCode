@@ -66,7 +66,7 @@ public class SwerveModule{
     this.driveRelitiveEncoder.setInverted(driveEncoderRev);
     this.turningRelitivEncoder.setInverted(turningEncoderRev);
 
-    this.turningRelitivEncoder.setPositionConversionFactor(SwerveModuleConstants.kNeoEncoderCPRToDegrees);
+    this.turningRelitivEncoder.setPositionConversionFactor(SwerveModuleConstants.kRelitiveTurningEncoderCPRToDegrees);
 
     // This may need to be changed
     this.m_driveMotor.setSmartCurrentLimit(20);
@@ -101,7 +101,7 @@ public class SwerveModule{
   }
     
   private void resetTurningMotorToAbsolute() {
-    this.driveRelitiveEncoder.setPosition(this.turningAbsoluteEncoder.getPosition() - this.turningAbsoluteEncoderOffset);
+    this.driveRelitiveEncoder.setPosition((this.turningAbsoluteEncoder.getPosition() - this.turningAbsoluteEncoderOffset) * SwerveModuleConstants.kTurningGearRatio);
   }
 
   private double getTurningEncoderAngleRadiens() {
@@ -117,7 +117,7 @@ public class SwerveModule{
   }
 
   private void setHeadingInDegrees(Rotation2d optimizedDesiredRotation){
-    double desiredDegrees = optimizedDesiredRotation.getRadians() / SwerveModuleConstants.kTurningEncoderRadiansPerPulse;
+    double desiredDegrees = optimizedDesiredRotation.getDegrees(); 
     turningPIDController.setReference(desiredDegrees, ControlType.kPosition);
   }
 

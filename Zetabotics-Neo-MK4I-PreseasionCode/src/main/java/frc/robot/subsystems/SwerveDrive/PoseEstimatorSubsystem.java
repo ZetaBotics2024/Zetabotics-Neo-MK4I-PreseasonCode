@@ -71,7 +71,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
       var layout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
       layout.setOrigin(originPosition);
       // The Pose Strategy may be incorrect
-      photonPoseEstimator = new PhotonPoseEstimator(layout, PoseStrategy.MULTI_`TAG_PNP_ON_COPROCESSOR, photonCamera,
+      photonPoseEstimator = new PhotonPoseEstimator(layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, photonCamera,
           Constants.VisionConstants.robotToCam);
       photonPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
     } catch (IOException e) {

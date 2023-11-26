@@ -50,7 +50,7 @@ public class RobotContainer {
       () -> poseEstimator.getCurrentPose().getRotation(),
       () -> -modifyAxis(m_driverController.getLeftY()) ,
       () -> -modifyAxis(m_driverController.getLeftX()) ,
-      () -> -modifyAxis(m_driverController.getRightX()),
+      () -> -modifyAxis(m_driverController.getRightX())
       );
 
     m_driveSubsystem.setDefaultCommand(fieldOrientedDriveCommand);
