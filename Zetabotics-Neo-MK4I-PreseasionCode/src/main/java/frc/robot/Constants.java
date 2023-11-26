@@ -119,7 +119,7 @@ public final class Constants {
     public static final double kAbsoluteTurningEncoderCPRToDegrees = 
     (kAbsoluteTurningEncoderCPR / kAbsoluteTurningEncoderCPR) * 360;
 
-    public static final double kRelitiveTurningEncoderCPRToDegrees = 
+    public static final double kRelativeTurningEncoderCPRToDegrees = 
     ((kNeoEncoderCPR / kNeoEncoderCPR) * 360) * kTurningGearRatio;
 
     public static final double kWheelDistancePerRotation = kWheelDiameterMeters * Math.PI;

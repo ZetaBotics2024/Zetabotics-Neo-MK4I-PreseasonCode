@@ -31,11 +31,11 @@ public class SwerveModule{
   private SparkMaxPIDController drivingPIDController;
   private SparkMaxPIDController turningPIDController;
 
-  private RelativeEncoder driveRelitiveEncoder;
+  private RelativeEncoder driveRelativeEncoder;
 
   private CANCoder turningAbsoluteEncoder;
   private double turningAbsoluteEncoderOffset;
-  private RelativeEncoder turningRelitivEncoder;
+  private RelativeEncoder turningRelativeEncoder;
 
   public SwerveModule(int driveMotorId, int turningMotorId, int turningAbsoluteEncoderId, double turningEncoderOffset, boolean driveMotorRev,
    boolean turnMotorRev, boolean driveEncoderRev, boolean turningEncoderRev) {
@@ -43,10 +43,10 @@ public class SwerveModule{
     this.m_driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
     this.m_turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
 
-    this.driveRelitiveEncoder = this.m_driveMotor.getEncoder();
+    this.driveRelativeEncoder = this.m_driveMotor.getEncoder();
 
     this.turningAbsoluteEncoder = new CANCoder(turningAbsoluteEncoderId);
-    this.turningRelitivEncoder = m_turningMotor.getEncoder();
+    this.turningRelativeEncoder = m_turningMotor.getEncoder();
 
     this.drivingPIDController = this.m_driveMotor.getPIDController();
     this.turningPIDController = this.m_turningMotor.getPIDController();
@@ -63,10 +63,10 @@ public class SwerveModule{
     this.m_driveMotor.setInverted(driveMotorRev);
     this.m_turningMotor.setInverted(turnMotorRev);
 
-    this.driveRelitiveEncoder.setInverted(driveEncoderRev);
-    this.turningRelitivEncoder.setInverted(turningEncoderRev);
+    this.driveRelativeEncoder.setInverted(driveEncoderRev);
+    this.turningRelativeEncoder.setInverted(turningEncoderRev);
 
-    this.turningRelitivEncoder.setPositionConversionFactor(SwerveModuleConstants.kRelitiveTurningEncoderCPRToDegrees);
+    this.turningRelativeEncoder.setPositionConversionFactor(SwerveModuleConstants.kRelativeTurningEncoderCPRToDegrees);
 
     // This may need to be changed
     this.m_driveMotor.setSmartCurrentLimit(20);
@@ -101,11 +101,11 @@ public class SwerveModule{
   }
     
   private void resetTurningMotorToAbsolute() {
-    this.driveRelitiveEncoder.setPosition((this.turningAbsoluteEncoder.getPosition() - this.turningAbsoluteEncoderOffset) * SwerveModuleConstants.kTurningGearRatio);
+    this.driveRelativeEncoder.setPosition((this.turningAbsoluteEncoder.getPosition() - this.turningAbsoluteEncoderOffset) * SwerveModuleConstants.kTurningGearRatio);
   }
 
   private double getTurningEncoderAngleRadiens() {
-    return Math.toRadians(this.turningRelitivEncoder.getPosition());
+    return Math.toRadians(this.turningRelativeEncoder.getPosition());
   }
 
   private double degreesToCPR(double degrees) {
@@ -113,7 +113,7 @@ public class SwerveModule{
   }
 
   public Rotation2d getTurningEncoderAngleDegrees() {
-    return Rotation2d.fromDegrees(this.turningRelitivEncoder.getPosition());
+    return Rotation2d.fromDegrees(this.turningRelativeEncoder.getPosition());
   }
 
   private void setHeadingInDegrees(Rotation2d optimizedDesiredRotation){
@@ -122,7 +122,7 @@ public class SwerveModule{
   }
 
   public double getDriveMotorSpeedInMetersPerSecond() {
-    return this.driveRelitiveEncoder.getVelocity() * SwerveModuleConstants.kNeoEncoderCPRToMetersPerSecond;
+    return this.driveRelativeEncoder.getVelocity() * SwerveModuleConstants.kNeoEncoderCPRToMetersPerSecond;
   }
 
   private double metersPerSecondToCPR(double metersPerSecond) {
