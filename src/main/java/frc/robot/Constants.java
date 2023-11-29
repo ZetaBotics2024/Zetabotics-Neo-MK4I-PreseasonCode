@@ -114,7 +114,7 @@ public final class Constants {
     public static final double kMaxRPM = 5676;
     public static final double kWheelDiameterMeters = 0.1016;
     public static final double kDriveGearRatio = 6.75/1;
-    public static final double kTurningGearRatio = 1/1; // TODO: Change to actully gear ratio
+    public static final double kTurningGearRatio = 150/7:1; 
 
     public static final double kAbsoluteTurningEncoderCPRToDegrees = 
     (kAbsoluteTurningEncoderCPR / kAbsoluteTurningEncoderCPR) * 360;
