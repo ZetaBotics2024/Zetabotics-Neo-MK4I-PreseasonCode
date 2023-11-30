@@ -119,6 +119,8 @@ public final class Constants {
     public static final double kAbsoluteTurningEncoderCPRToDegrees = 
     (kAbsoluteTurningEncoderCPR / kAbsoluteTurningEncoderCPR) * 360;
 
+    public static final double kAbsoluteTurningEncoderCPRToDegreesMult = 360 / 4096;
+
     public static final double kRelativeTurningEncoderCPRToDegrees = 
     ((kNeoEncoderCPR / kNeoEncoderCPR) * 360) * kTurningGearRatio;
 

@@ -101,7 +101,7 @@ public class SwerveModule{
   }
     
   private void resetTurningMotorToAbsolute() {
-    this.driveRelativeEncoder.setPosition((this.turningAbsoluteEncoder.getPosition() - this.turningAbsoluteEncoderOffset) * SwerveModuleConstants.kTurningGearRatio);
+    this.driveRelativeEncoder.setPosition((this.turningAbsoluteEncoder.getPosition() - this.turningAbsoluteEncoderOffset) * kAbsoluteTurningEncoderCPRToDegreesMult);
   }
 
   private double getTurningEncoderAngleRadiens() {
