@@ -226,10 +226,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void lockSwerves(){
     // Crank all the swerve turning motors 45 degrees one way or the other
-    var m_frontLeftLockupState = new SwerveModuleState(0, Rotation2d.fromDegrees(-45));
-    var m_frontRightLockupState = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
-    var m_rearLeftLockupState = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
-    var m_rearRightLockupState = new SwerveModuleState(0, Rotation2d.fromDegrees(-45));
+    SwerveModuleState m_frontLeftLockupState = new SwerveModuleState(0, Rotation2d.fromDegrees(-45));
+    SwerveModuleState m_frontRightLockupState = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
+    SwerveModuleState m_rearLeftLockupState = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
+    SwerveModuleState m_rearRightLockupState = new SwerveModuleState(0, Rotation2d.fromDegrees(-45));
     this.frontLeftSwerveModule.setDesiredState(m_frontLeftLockupState);
     this.frontRightSwerveModule.setDesiredState(m_frontRightLockupState);
     this.backLeftSwerveModule.setDesiredState(m_rearLeftLockupState);
