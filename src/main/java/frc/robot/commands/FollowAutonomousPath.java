@@ -48,7 +48,13 @@ public Command followPathCommand(String pathName){
     // You must wrap the path following command in a FollowPathWithEvents command in order for event markers to work
     return new FollowPathWithEvents(
         new FollowPathHolonomic(
-          
+          path,
+          this.poseEstimatorSubsystem::getCurrentPose,
+          this.driveSubsystem::getChassisSpeeds,
+          this.driveSubsystem::drive,
+          new PIDConstants(0), // TODO: Add real PID constants
+          new PIDConstants(0),
+        
           /*
             path,
             this.poseEstimatorSubsystem::getCurrentPose, // Robot pose supplier
