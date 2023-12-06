@@ -73,6 +73,7 @@ public final class Constants {
     public static final double kMaxRotationAnglePerSecond = .6;
 
     // Last years values
+    public static final double kRadiusFromCenterToSwerveDrives = 0;
     public static final double kDistenceBetweenCentersOfRightAndLeftWheels = 0.482598984;
     public static final double kDistenceBetweenCentersOfFrontAndBackWheels = 0.4318000000000001714;
 
