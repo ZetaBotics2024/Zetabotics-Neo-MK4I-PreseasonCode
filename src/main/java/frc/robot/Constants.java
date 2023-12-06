@@ -153,5 +153,10 @@ public final class Constants {
   public static final class AutoConstants {
     public static HashMap<String, Command> eventMap = new HashMap<>();
     public static final double kMaxAutonSpeedInMetersPerSecond = 4.1;
+    public static final double kMaxAutonAccelerationInMetersPerSecondSqr = 4.1;
+
+    // These need to be changed to have something to do with pi
+    public static final double kMaxAutonAngulerSpeedInMetersPerSecond = 4.1;
+    public static final double kMaxAutonAngulerAccelerationInMetersPerSecondSqr = 4.1;
   }
 }
