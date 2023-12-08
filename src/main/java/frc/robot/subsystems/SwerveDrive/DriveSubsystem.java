@@ -6,7 +6,6 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -15,7 +14,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.SwerveModuleConstants;
 import frc.robot.Constants.SwerveDriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -28,10 +26,9 @@ public class DriveSubsystem extends SubsystemBase {
     private final SwerveModule backRightSwerveModule;
 
     private WPI_Pigeon2 m_gyro;
-    private Pose2d startingPosition = new Pose2d(0, 0, new Rotation2d(0));
+    //private Pose2d startingPosition = new Pose2d(0, 0, new Rotation2d(0));
 
     private final ProfiledPIDController turningPIDController; 
-    private boolean swervesLocked;
 
     public DriveSubsystem() {
         this.frontLeftSwerveModule =  new SwerveModule(
@@ -71,7 +68,6 @@ public class DriveSubsystem extends SubsystemBase {
         this.m_gyro.configMountPosePitch(0);
         this.m_gyro.reset();
 
-        this.swervesLocked = false;
 
         SmartDashboard.updateValues();
     }
@@ -221,7 +217,6 @@ public class DriveSubsystem extends SubsystemBase {
     drive(
         ChassisSpeeds.fromFieldRelativeSpeeds(0,0
         ,0, new Rotation2d(0)));
-    this.swervesLocked = false;
   }
 
   public void lockSwerves(){
@@ -234,7 +229,6 @@ public class DriveSubsystem extends SubsystemBase {
     this.frontRightSwerveModule.setDesiredState(m_frontRightLockupState);
     this.backLeftSwerveModule.setDesiredState(m_rearLeftLockupState);
     this.backRightSwerveModule.setDesiredState(m_rearRightLockupState);
-    this.swervesLocked = true;
   }
 
 

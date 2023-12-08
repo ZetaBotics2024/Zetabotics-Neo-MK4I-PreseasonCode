@@ -75,15 +75,16 @@ public final class Constants {
     public static final double kRadiusFromCenterToSwerves = 1;
 
     // Last years values
-    public static final double kDistenceBetweenCentersOfRightAndLeftWheels = 0.482598984;
-    public static final double kDistenceBetweenCentersOfFrontAndBackWheels = 0.4318000000000001714;
+    public static final double kRadiusFromCenterToSwerveDrives = 0;
+    public static final double kDistanceBetweenCentersOfRightAndLeftWheels = 0.482598984;
+    public static final double kDistanceBetweenCentersOfFrontAndBackWheels = 0.4318000000000001714;
 
     public static final SwerveDriveKinematics kDriveKinematics =
             new SwerveDriveKinematics(
-                new Translation2d(kDistenceBetweenCentersOfFrontAndBackWheels / 2, kDistenceBetweenCentersOfRightAndLeftWheels / 2),
-                new Translation2d(kDistenceBetweenCentersOfFrontAndBackWheels / 2, -kDistenceBetweenCentersOfRightAndLeftWheels / 2),
-                new Translation2d(-kDistenceBetweenCentersOfFrontAndBackWheels / 2, kDistenceBetweenCentersOfRightAndLeftWheels / 2),
-                new Translation2d(-kDistenceBetweenCentersOfFrontAndBackWheels / 2, -kDistenceBetweenCentersOfRightAndLeftWheels / 2));
+                new Translation2d(kDistanceBetweenCentersOfFrontAndBackWheels / 2, kDistanceBetweenCentersOfRightAndLeftWheels / 2),
+                new Translation2d(kDistanceBetweenCentersOfFrontAndBackWheels / 2, -kDistanceBetweenCentersOfRightAndLeftWheels / 2),
+                new Translation2d(-kDistanceBetweenCentersOfFrontAndBackWheels / 2, kDistanceBetweenCentersOfRightAndLeftWheels / 2),
+                new Translation2d(-kDistanceBetweenCentersOfFrontAndBackWheels / 2, -kDistanceBetweenCentersOfRightAndLeftWheels / 2));
 
     public static final double kPModuleTurningController = .2;
     public static final double kIModuleTurningController = 0.0001;
@@ -154,7 +155,12 @@ public final class Constants {
   };
 
   public static final class AutoConstants {
-    public static HashMap<String, Command> eventMap = new HashMap<>();
+    public static HashMap<String, Command> namedEventMap = new HashMap<>();
     public static final double kMaxAutonSpeedInMetersPerSecond = 4.1;
+    public static final double kMaxAutonAccelerationInMetersPerSecondSqr = 4.1;
+
+    // These need to be changed to have something to do with pi
+    public static final double kMaxAutonAngulerSpeedInMetersPerSecond = 4.1;
+    public static final double kMaxAutonAngulerAccelerationInMetersPerSecondSqr = 4.1;
   }
 }
