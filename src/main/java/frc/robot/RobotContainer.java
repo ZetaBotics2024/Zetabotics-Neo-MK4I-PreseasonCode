@@ -65,14 +65,14 @@ public class RobotContainer {
 
     NamedCommands.registerCommands(Constants.AutoConstants.namedEventMap);
 
-    this.autoChooser = AutoBuilder.buildAutoChooser();
+    //this.autoChooser = AutoBuilder.buildAutoChooser();
 
-    this.autoChooser.addOption("My Mom", FollowAutonomousPath.followPathCommand(poseEstimator, m_driveSubsystem, "benjaminsmom"));
+    //this.autoChooser.addOption("My Mom", FollowAutonomousPath.followPathCommand(poseEstimator, m_driveSubsystem, "benjaminsmom"));
 
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    //SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
  

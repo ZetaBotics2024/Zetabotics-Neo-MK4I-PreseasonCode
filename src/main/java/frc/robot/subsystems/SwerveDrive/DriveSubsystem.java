@@ -33,23 +33,19 @@ public class DriveSubsystem extends SubsystemBase {
     public DriveSubsystem() {
         this.frontLeftSwerveModule =  new SwerveModule(
             SwerveDriveConstants.kFrontLeftDriveMotorId, SwerveDriveConstants.kFrontLeftTurnMotorId, SwerveDriveConstants.kFrontLeftTurnEncoderId,
-             SwerveDriveConstants.kFrontLeftTurnEncoderOffset, SwerveDriveConstants.kFrontLeftDriveMotorRev, SwerveDriveConstants.kFrontLeftTurnMotorRev,
-              SwerveDriveConstants.kFrontLeftDriveEncoderRev, SwerveDriveConstants.kFrontLeftTurnEncoderRev);
+             SwerveDriveConstants.kFrontLeftTurnEncoderOffset, SwerveDriveConstants.kFrontLeftDriveMotorRev, SwerveDriveConstants.kFrontLeftTurnMotorRev);
         
         this.frontRightSwerveModule = new SwerveModule(
             SwerveDriveConstants.kFrontRightDriveMotorId, SwerveDriveConstants.kFrontRightTurnMotorId, SwerveDriveConstants.kFrontRightTurnEncoderId,
-             SwerveDriveConstants.kFrontRightTurnEncoderOffset, SwerveDriveConstants.kFrontRightDriveMotorRev, SwerveDriveConstants.kFrontRightTurnMotorRev,
-              SwerveDriveConstants.kFrontRightDriveEncoderRev, SwerveDriveConstants.kFrontRightTurnEncoderRev);
+             SwerveDriveConstants.kFrontRightTurnEncoderOffset, SwerveDriveConstants.kFrontRightDriveMotorRev, SwerveDriveConstants.kFrontRightTurnMotorRev);
 
         this.backLeftSwerveModule = new SwerveModule(
             SwerveDriveConstants.kBackLeftDriveMotorId, SwerveDriveConstants.kBackLeftTurnMotorId, SwerveDriveConstants.kBackLeftTurnEncoderId,
-             SwerveDriveConstants.kBackLeftTurnEncoderOffset, SwerveDriveConstants.kBackLeftDriveMotorRev, SwerveDriveConstants.kBackLeftTurnMotorRev,
-              SwerveDriveConstants.kBackLeftDriveEncoderRev, SwerveDriveConstants.kBackLeftTurnEncoderRev);
+             SwerveDriveConstants.kBackLeftTurnEncoderOffset, SwerveDriveConstants.kBackLeftDriveMotorRev, SwerveDriveConstants.kBackLeftTurnMotorRev);
 
         this.backRightSwerveModule = new SwerveModule(
             SwerveDriveConstants.kBackRightDriveMotorId, SwerveDriveConstants.kBackRightTurnMotorId, SwerveDriveConstants.kBackRightTurnEncoderId,
-             SwerveDriveConstants.kBackRightTurnEncoderOffset, SwerveDriveConstants.kBackRightDriveMotorRev, SwerveDriveConstants.kBackRightTurnMotorRev,
-              SwerveDriveConstants.kBackRightDriveEncoderRev, SwerveDriveConstants.kBackRightTurnEncoderRev);
+             SwerveDriveConstants.kBackRightTurnEncoderOffset, SwerveDriveConstants.kBackRightDriveMotorRev, SwerveDriveConstants.kBackRightTurnMotorRev);
 
         this.m_gyro = new WPI_Pigeon2(SwerveDriveConstants.kGyroId);
 
