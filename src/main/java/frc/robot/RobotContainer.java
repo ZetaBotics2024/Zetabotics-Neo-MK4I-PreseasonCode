@@ -7,6 +7,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.SwerveDriveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.FieldOrientedDriveCommand;
 import frc.robot.commands.FollowAutonomousPath;
@@ -14,12 +15,17 @@ import frc.robot.commands.LockSwerves;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 import frc.robot.subsystems.SwerveDrive.PoseEstimatorSubsystem;
 
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 import org.photonvision.PhotonCamera;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -61,6 +67,12 @@ public class RobotContainer {
 
     m_driveSubsystem.setDefaultCommand(fieldOrientedDriveCommand);
 
+    Supplier<Pose2d> currentPoseSupplier = () -> poseEstimator.getCurrentPose();
+    Consumer<Pose2d> resetPoseConsumer = (Pose2d) -> poseEstimator.setCurrentPose(Pose2d);
+    Supplier<ChassisSpeeds> robotRelativeSpeedsSupplier = () -> m_driveSubsystem.getChassisSpeeds();
+    Consumer<ChassisSpeeds> robotRelativeSpeedsConsumer = (newChassisSpeeds) -> m_driveSubsystem.setModuleStates(SwerveDriveConstants.kDriveKinematics.toSwerveModuleStates(newChassisSpeeds));
+
+    AutoBuilder.configureHolonomic(currentPoseSupplier, resetPoseConsumer, robotRelativeSpeedsSupplier, robotRelativeSpeedsConsumer, null, m_driveSubsystem);
     configureBindings();
 
     NamedCommands.registerCommands(Constants.AutoConstants.namedEventMap);
@@ -85,6 +97,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
+
+  
 
   private static double modifyAxis(double value) {
     // Deadband

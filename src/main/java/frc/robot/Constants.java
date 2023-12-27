@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public final class Constants {
@@ -152,6 +153,7 @@ public final class Constants {
 
   public static final class AutoConstants {
     public static HashMap<String, Command> namedEventMap = new HashMap<>();
+    public static Alliance alliance;
     public static final double kMaxAutonSpeedInMetersPerSecond = 4.1;
     public static final double kMaxAutonAccelerationInMetersPerSecondSqr = 4.1;
 
