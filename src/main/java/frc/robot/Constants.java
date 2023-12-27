@@ -65,8 +65,8 @@ public final class Constants {
 
     // Last years values
     public static final double kRadiusFromCenterToSwerveDrives = 0;
-    public static final double kDistanceBetweenCentersOfRightAndLeftWheels = 0.482598984;
-    public static final double kDistanceBetweenCentersOfFrontAndBackWheels = 0.4318000000000001714;
+    public static final double kDistanceBetweenCentersOfRightAndLeftWheels = 0.6096;
+    public static final double kDistanceBetweenCentersOfFrontAndBackWheels = 0.6096;
 
     public static final SwerveDriveKinematics kDriveKinematics =
             new SwerveDriveKinematics(
@@ -137,9 +137,11 @@ public final class Constants {
   }
 
   public static final class VisionConstants {
-    public static final String cameraName = "limelight";
+    //15.25 inch h
+    //19 3/4 v
+    public static final String cameraName = "photonvision";
     public static final Transform3d robotToCam = new Transform3d(new Translation3d(.26, .2, 0), new Rotation3d()); 
-   // public static final Transform3d ROBOT_TO_CAMERA = robotToCam.inverse();
+    //public static final Transform3d ROBOT_TO_CAMERA = robotToCam.inverse();
     
   };
 

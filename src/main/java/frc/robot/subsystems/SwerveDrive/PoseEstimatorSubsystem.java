@@ -1,6 +1,8 @@
 package frc.robot.subsystems.SwerveDrive;
 
 import java.io.IOException;
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.photonvision.PhotonCamera;
@@ -92,6 +94,22 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
 
     tab.addString("Pose", this::getFomattedPose).withPosition(0, 0).withSize(2, 0);
     tab.add("Field", field2d).withPosition(2, 0).withSize(6, 4);
+    Method[] methods = poseEstimator.getClass().getDeclaredMethods();
+    for (Method method : methods) {
+      AnnotatedType[] parameters = method.getAnnotatedParameterTypes();
+      String typeList = "";
+      for (AnnotatedType type : parameters) {
+        typeList += type.toString();
+      }
+      SmartDashboard.putString(method.getName(), typeList);
+
+    }
+    //Package wpilib = SwerveDrivePoseEstimator.class.getPackage();
+
+    //tab.addString(
+    //  wpilib.getName() + " library version",
+    //  wpilib::getImplementationVendor
+    //);
   }
 
   /**
@@ -129,9 +147,12 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update pose estimator with drivetrain sensors
-    poseEstimator.update(
-        m_driveSubsystem.getHeadingInRotation2d(),
-        m_driveSubsystem.getModulePositions());
+
+    
+    
+   poseEstimator.update(
+       m_driveSubsystem.getHeadingInRotation2d(),
+       m_driveSubsystem.getModulePositions());
 
     // Conversion so robot appears where it actually is on field instead of always
     // on blue.
