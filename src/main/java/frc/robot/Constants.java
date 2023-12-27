@@ -41,10 +41,10 @@ public final class Constants {
     public static final int kBackRightTurnEncoderId = 12;
 
     // Make Sure to set these
-    public static final double kFrontLeftTurnEncoderOffset = 0;
-    public static final double kFrontRightTurnEncoderOffset = 0;
-    public static final double kBackLeftTurnEncoderOffset = 0;
-    public static final double kBackRightTurnEncoderOffset = 0;
+    public static final double kFrontLeftTurnEncoderOffset = 274.746;
+    public static final double kFrontRightTurnEncoderOffset = 293.115;
+    public static final double kBackLeftTurnEncoderOffset = 70.137;
+    public static final double kBackRightTurnEncoderOffset = 120.234;
 
     public static final boolean kFrontLeftDriveMotorRev =  false;
     public static final boolean kFrontRightDriveMotorRev =  false;
@@ -56,22 +56,13 @@ public final class Constants {
     public static final boolean kBackLeftTurnMotorRev = true;
     public static final boolean kBackRightTurnMotorRev =  true;
 
-    public static final boolean kFrontLeftDriveEncoderRev =  false;
-    public static final boolean kFrontRightDriveEncoderRev =  false;
-    public static final boolean kBackLeftDriveEncoderRev = false;
-    public static final boolean kBackRightDriveEncoderRev =  false;
-
-    public static final boolean kFrontLeftTurnEncoderRev =  false;
-    public static final boolean kFrontRightTurnEncoderRev =  false;
-    public static final boolean kBackLeftTurnEncoderRev = false;
-    public static final boolean kBackRightTurnEncoderRev =  false;
-
-
     public static final int kGyroId = 13;
     public static final boolean kGyroReversed = false;
 
     public static final double kMaxSpeedMetersPerSecond = 4.4196;
     public static final double kMaxRotationAnglePerSecond = .6;
+
+    public static final double kRadiusFromCenterToSwerves = 1;
 
     // Last years values
     public static final double kRadiusFromCenterToSwerveDrives = 0;
@@ -119,13 +110,15 @@ public final class Constants {
     public static final double kMaxRPM = 5676;
     public static final double kWheelDiameterMeters = 0.1016;
     public static final double kDriveGearRatio = 6.75/1;
-    public static final double kTurningGearRatio = 1/1; // TODO: Change to actully gear ratio
+    public static final double kTurningGearRatio = 150/7; 
 
     public static final double kAbsoluteTurningEncoderCPRToDegrees = 
     (kAbsoluteTurningEncoderCPR / kAbsoluteTurningEncoderCPR) * 360;
 
-    public static final double kRelativeTurningEncoderCPRToDegrees = 
-    ((kNeoEncoderCPR / kNeoEncoderCPR) * 360) * kTurningGearRatio;
+    public static final double kAbsoluteTurningEncoderCPRToDegreesMult = 360 / 4096;
+
+    public static final double kRelativeTurningEncoderDegreesToCPRMult = kNeoEncoderCPR / 360;
+    //((kNeoEncoderCPR / kNeoEncoderCPR) * 360) * kTurningGearRatio;
 
     public static final double kWheelDistancePerRotation = kWheelDiameterMeters * Math.PI;
 
@@ -147,7 +140,7 @@ public final class Constants {
   public static final class VisionConstants {
     public static final String cameraName = "limelight";
     public static final Transform3d robotToCam = new Transform3d(new Translation3d(.26, .2, 0), new Rotation3d()); 
-    public static final Transform3d ROBOT_TO_CAMERA = robotToCam.inverse();
+   // public static final Transform3d ROBOT_TO_CAMERA = robotToCam.inverse();
     
   };
 

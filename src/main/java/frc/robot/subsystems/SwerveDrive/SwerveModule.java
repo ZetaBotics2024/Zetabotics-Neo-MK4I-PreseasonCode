@@ -20,6 +20,8 @@ import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.Constants.SwerveModuleConstants;
 import frc.robot.utils.SwerveModuleAngleOptimizer;
 
@@ -38,7 +40,7 @@ public class SwerveModule{
   private RelativeEncoder turningRelativeEncoder;
 
   public SwerveModule(int driveMotorId, int turningMotorId, int turningAbsoluteEncoderId, double turningEncoderOffset, boolean driveMotorRev,
-   boolean turnMotorRev, boolean driveEncoderRev, boolean turningEncoderRev) {
+   boolean turnMotorRev) {
 
     this.m_driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
     this.m_turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -63,10 +65,7 @@ public class SwerveModule{
     this.m_driveMotor.setInverted(driveMotorRev);
     this.m_turningMotor.setInverted(turnMotorRev);
 
-    this.driveRelativeEncoder.setInverted(driveEncoderRev);
-    this.turningRelativeEncoder.setInverted(turningEncoderRev);
-
-    this.turningRelativeEncoder.setPositionConversionFactor(SwerveModuleConstants.kRelativeTurningEncoderCPRToDegrees);
+    //this.turningRelativeEncoder.setPositionConversionFactor(SwerveModuleConstants.kRelativeTurningEncoderCPRToDegrees);
 
     // This may need to be changed
     this.m_driveMotor.setSmartCurrentLimit(20);
@@ -101,11 +100,11 @@ public class SwerveModule{
   }
     
   private void resetTurningMotorToAbsolute() {
-    this.driveRelativeEncoder.setPosition((this.turningAbsoluteEncoder.getPosition() - this.turningAbsoluteEncoderOffset) * SwerveModuleConstants.kTurningGearRatio);
+    this.turningRelativeEncoder.setPosition(((this.turningAbsoluteEncoder.getAbsolutePosition() - this.turningAbsoluteEncoderOffset) / 360)* SwerveModuleConstants.kTurningGearRatio);
   }
 
   private double getTurningEncoderAngleRadiens() {
-    return Math.toRadians(this.turningRelativeEncoder.getPosition());
+    return Math.toRadians(getTurningEncoderAngleDegrees().getDegrees());
   }
 
   private double degreesToCPR(double degrees) {
@@ -113,12 +112,13 @@ public class SwerveModule{
   }
 
   public Rotation2d getTurningEncoderAngleDegrees() {
-    return Rotation2d.fromDegrees(this.turningRelativeEncoder.getPosition());
-  }
+    return Rotation2d.fromDegrees(((this.turningRelativeEncoder.getPosition() * SwerveModuleConstants.kNeoEncoderCPR) / SwerveModuleConstants.kRelativeTurningEncoderDegreesToCPRMult) / SwerveModuleConstants.kTurningGearRatio);
+  };
 
   private void setHeadingInDegrees(Rotation2d optimizedDesiredRotation){
     double desiredDegrees = optimizedDesiredRotation.getDegrees(); 
-    turningPIDController.setReference(desiredDegrees, ControlType.kPosition);
+    double desiredEncoderPulses = desiredDegrees * SwerveModuleConstants.kRelativeTurningEncoderDegreesToCPRMult * SwerveModuleConstants.kTurningGearRatio;
+    turningPIDController.setReference(desiredEncoderPulses, ControlType.kPosition);
   }
 
   public double getDriveMotorSpeedInMetersPerSecond() {
