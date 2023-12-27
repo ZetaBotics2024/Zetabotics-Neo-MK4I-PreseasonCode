@@ -4,9 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.commands.FollowAutonomousPath;
+import frc.robot.subsystems.SwerveDrive.PoseEstimatorSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,6 +33,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    checkDriverStationUpdate();
   }
 
   /**
@@ -39,6 +45,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    checkDriverStationUpdate();
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -56,6 +63,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    checkDriverStationUpdate();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -77,6 +85,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    checkDriverStationUpdate();
   }
 
   /** This function is called periodically during operator control. */
@@ -100,4 +109,15 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  private void checkDriverStationUpdate() {
+    // https://www.chiefdelphi.com/t/getalliance-always-returning-red/425782/27
+    Alliance currentAlliance = DriverStation.getAlliance();
+
+    // If we have data, and have a new alliance from last time
+    if (DriverStation.isDSAttached() && currentAlliance != Constants.AutoConstants.alliance) {
+      m_robotContainer.onAllianceChanged(currentAlliance);
+      Constants.AutoConstants.alliance = currentAlliance;
+    }
+  }
 }
