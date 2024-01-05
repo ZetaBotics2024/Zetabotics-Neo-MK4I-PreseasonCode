@@ -62,7 +62,7 @@ public class RobotContainer {
       () -> poseEstimator.getCurrentPose().getRotation(),
       () -> -modifyAxis(m_driverController.getLeftY()) ,
       () -> -modifyAxis(m_driverController.getLeftX()) ,
-      () -> -modifyAxis(m_driverController.getRightX())
+      () -> modifyAxis(m_driverController.getRightX() * 2)
       );
 
     m_driveSubsystem.setDefaultCommand(fieldOrientedDriveCommand);
@@ -71,7 +71,7 @@ public class RobotContainer {
     Consumer<Pose2d> resetPoseConsumer = (Pose2d) -> poseEstimator.setCurrentPose(Pose2d);
     Supplier<ChassisSpeeds> robotRelativeSpeedsSupplier = () -> m_driveSubsystem.getChassisSpeeds();
     Consumer<ChassisSpeeds> robotRelativeSpeedsConsumer = (newChassisSpeeds) -> m_driveSubsystem.setModuleStates(SwerveDriveConstants.kDriveKinematics.toSwerveModuleStates(newChassisSpeeds));
-
+/* 
     AutoBuilder.configureHolonomic(currentPoseSupplier, resetPoseConsumer, robotRelativeSpeedsSupplier, robotRelativeSpeedsConsumer, null, m_driveSubsystem);
     configureBindings();
 
@@ -85,6 +85,7 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
+    */
   }
 
  

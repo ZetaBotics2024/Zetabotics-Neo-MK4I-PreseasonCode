@@ -41,8 +41,8 @@ public final class Constants {
     public static final int kBackRightTurnEncoderId = 12;
 
     // Make Sure to set these
-    public static final double kFrontLeftTurnEncoderOffset = 0.166992;
-    public static final double kFrontRightTurnEncoderOffset = 0.753662;
+    public static final double kFrontLeftTurnEncoderOffset = 0.145508;
+    public static final double kFrontRightTurnEncoderOffset = 0.962402;
     public static final double kBackLeftTurnEncoderOffset = 0.688477;
     public static final double kBackRightTurnEncoderOffset = 0.837891;
 
@@ -81,7 +81,7 @@ public final class Constants {
                 new Translation2d(-kDistanceBetweenCentersOfFrontAndBackWheels / 2, kDistanceBetweenCentersOfRightAndLeftWheels / 2),
                 new Translation2d(-kDistanceBetweenCentersOfFrontAndBackWheels / 2, -kDistanceBetweenCentersOfRightAndLeftWheels / 2));
 
-    public static final double kPModuleTurningController = .1;
+    public static final double kPModuleTurningController = .3;
     public static final double kIModuleTurningController = 0;
     public static final double kDModuleTurningController = .0;
 
@@ -107,7 +107,7 @@ public final class Constants {
     public static final double kIModuleTurningController = 0;
     public static final double kDModuleTurningController = 0;
     public static final double kFModuleTurningController = 0;
-    public static final double kIZoneModuleTurningController = 0.25;
+    public static final double kIZoneModuleTurningController = 0.01;
   
     // Updated for this year
     public static final double kAbsoluteTurningEncoderCPR = 4096;
