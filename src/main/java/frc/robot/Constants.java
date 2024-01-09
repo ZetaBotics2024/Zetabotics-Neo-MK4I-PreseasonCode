@@ -126,7 +126,7 @@ public final class Constants {
     public static final double kTurningConversionFactor = 360 / kTurningGearRatio;
 
     public static final double kAbsoluteTurningEncoderCPRToDegrees = 
-    (kAbsoluteTurningEncoderCPR / kAbsoluteTurningEncoderCPR) * 360;
+    (kAbsoluteTurningEncoderCPR / kAbsoluteTurningEncoderCPR) * 360;  
 
     public static final double kAbsoluteTurningEncoderCPRToDegreesMult = 360 / 4096;
 
@@ -136,7 +136,7 @@ public final class Constants {
     public static final double kWheelDistancePerRotation = kWheelDiameterMeters * Math.PI;
 
     public static final double kDriveConversionPositionFactor =
-        (wheelDiameter * Math.PI) / driveGearRatio;
+        (kWheelDiameterMeters * Math.PI) / kDriveGearRatio;
     public static final double kDriveConversionVelocityFactor = kDriveConversionPositionFactor / 60.0;
 
 

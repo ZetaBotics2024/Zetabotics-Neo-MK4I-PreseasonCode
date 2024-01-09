@@ -25,6 +25,9 @@ import com.revrobotics.SparkPIDController.AccelStrategy;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -81,7 +84,7 @@ public class SwerveModule{
     this.m_driveMotor.setSmartCurrentLimit(20);
     this.m_turningMotor.setSmartCurrentLimit(20);
 
-    this.m_driveMotor.setVelocityConversionFactor(this.SwerveModuleConstants.kDriveConversionVelocityFactor);
+    this.turningRelativeEncoder.setVelocityConversionFactor(SwerveModuleConstants.kDriveConversionVelocityFactor);
 
     this.drivingPIDController.setP(SwerveModuleConstants.kPModuleDriveController);
     this.drivingPIDController.setI(SwerveModuleConstants.kIModuleDriveController);
@@ -125,7 +128,7 @@ public class SwerveModule{
   }
 
   public Rotation2d getTurningEncoderAngleDegrees() {
-    return Rotation2d.fromDegrees(this.turningAbsoluteEncoder.getPosition() * 360);
+    return Rotation2d.fromDegrees(this.turningAbsoluteEncoder.getAbsolutePosition().getValueAsDouble() * 360);
   };
 
   private void setHeadingInDegrees(Rotation2d optimizedDesiredRotation){
@@ -145,6 +148,10 @@ public class SwerveModule{
 
   public SwerveModuleState getState() {
     return new SwerveModuleState(getDriveMotorSpeedInMetersPerSecond(), getTurningEncoderAngleDegrees());
+  }
+
+  public double getDriveMotorSpeedInMetersPerSecond() {
+    return this.driveRelativeEncoder.getVelocity();
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
