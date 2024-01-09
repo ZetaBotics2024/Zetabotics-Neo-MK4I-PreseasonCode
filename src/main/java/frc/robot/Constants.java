@@ -121,7 +121,7 @@ public final class Constants {
     public static final double kMaxRPM = 5676;
     public static final double kWheelDiameterMeters = 0.1016;
     public static final double kDriveGearRatio = 6.75/1;
-    public static final double kTurningGearRatio = 150/7; 
+    public static final double kTurningGearRatio = 150.0/7.0; 
 
     public static final double kTurningConversionFactor = 360 / kTurningGearRatio;
 
@@ -135,7 +135,10 @@ public final class Constants {
 
     public static final double kWheelDistancePerRotation = kWheelDiameterMeters * Math.PI;
 
-    public static final double kNeoEncoderCPRToMetersPerSecond = 10 / kNeoEncoderCPR / kDriveGearRatio  * kWheelDistancePerRotation;
+    public static final double kDriveConversionPositionFactor =
+        (wheelDiameter * Math.PI) / driveGearRatio;
+    public static final double kDriveConversionVelocityFactor = kDriveConversionPositionFactor / 60.0;
+
 
     public static final double kDriveEncoderDistancePerPulse =
         ((kWheelDiameterMeters * Math.PI) / kDriveGearRatio) / kNeoEncoderCPR;

@@ -81,6 +81,8 @@ public class SwerveModule{
     this.m_driveMotor.setSmartCurrentLimit(20);
     this.m_turningMotor.setSmartCurrentLimit(20);
 
+    this.m_driveMotor.setVelocityConversionFactor(this.SwerveModuleConstants.kDriveConversionVelocityFactor);
+
     this.drivingPIDController.setP(SwerveModuleConstants.kPModuleDriveController);
     this.drivingPIDController.setI(SwerveModuleConstants.kIModuleDriveController);
     this.drivingPIDController.setD(SwerveModuleConstants.kDModuleDriveController);
@@ -123,21 +125,13 @@ public class SwerveModule{
   }
 
   public Rotation2d getTurningEncoderAngleDegrees() {
-    return Rotation2d.fromDegrees(this.turningRelativeEncoder.getPosition() * 360 / SwerveModuleConstants.kTurningGearRatio);
+    return Rotation2d.fromDegrees(this.turningAbsoluteEncoder.getPosition() * 360 / SwerveModuleConstants.kTurningGearRatio);
   };
 
   private void setHeadingInDegrees(Rotation2d optimizedDesiredRotation){
     double desiredDegrees = optimizedDesiredRotation.getDegrees(); 
     double desiredEncoderRotation = (desiredDegrees / 360) * SwerveModuleConstants.kTurningGearRatio;
     turningPIDController.setReference(desiredEncoderRotation, ControlType.kPosition);
-  }
-
-  public double getDriveMotorSpeedInMetersPerSecond() {
-    return this.driveRelativeEncoder.getVelocity() * SwerveModuleConstants.kNeoEncoderCPRToMetersPerSecond;
-  }
-
-  private double metersPerSecondToCPR(double metersPerSecond) {
-    return metersPerSecond / SwerveModuleConstants.kNeoEncoderCPRToMetersPerSecond;
   }
 
   public double getDistance() {
@@ -156,8 +150,7 @@ public class SwerveModule{
   public void setDesiredState(SwerveModuleState desiredState) {
       SwerveModuleState state = SwerveModuleAngleOptimizer.optimize(desiredState, getTurningEncoderAngleDegrees());
 
-      double desiredVelocity = metersPerSecondToCPR(state.speedMetersPerSecond);
-      m_driveMotor.getPIDController().setReference(desiredVelocity, CANSparkMax.ControlType.kVelocity);
+      m_driveMotor.getPIDController().setReference(state.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
       this.setHeadingInDegrees(state.angle);
   }
   
