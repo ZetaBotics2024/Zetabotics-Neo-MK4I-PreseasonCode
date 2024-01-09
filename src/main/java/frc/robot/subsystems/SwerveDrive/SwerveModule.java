@@ -125,7 +125,7 @@ public class SwerveModule{
   }
 
   public Rotation2d getTurningEncoderAngleDegrees() {
-    return Rotation2d.fromDegrees(this.turningAbsoluteEncoder.getPosition() * 360 / SwerveModuleConstants.kTurningGearRatio);
+    return Rotation2d.fromDegrees(this.turningAbsoluteEncoder.getPosition() * 360);
   };
 
   private void setHeadingInDegrees(Rotation2d optimizedDesiredRotation){
