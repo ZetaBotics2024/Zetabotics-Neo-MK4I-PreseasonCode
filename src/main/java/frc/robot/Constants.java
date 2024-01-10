@@ -61,8 +61,8 @@ public final class Constants {
     public static final boolean kBackLeftDriveMotorRev = true;
     public static final boolean kBackRightDriveMotorRev = true;
 
-    public static final boolean kFrontLeftTurnMotorRev =  true;
-    public static final boolean kFrontRightTurnMotorRev =  true;
+    public static final boolean kFrontLeftTurnMotorRev = true;
+    public static final boolean kFrontRightTurnMotorRev = true;
     public static final boolean kBackLeftTurnMotorRev = true;
     public static final boolean kBackRightTurnMotorRev =  true;
 
@@ -70,9 +70,9 @@ public final class Constants {
     public static final boolean kGyroReversed = false;
 
     public static final double kMaxSpeedMetersPerSecond = 4.4196;
-    public static final double kMaxRotationAnglePerSecond = 2;
+    public static final double kMaxRotationAnglePerSecond = 2.0;
 
-    public static final double kRadiusFromCenterToSwerves = 1;
+    public static final double kRadiusFromCenterToSwerves = 1.0;
 
     // Last years values
     public static final double kRadiusFromCenterToSwerveDrives = 0;
@@ -94,8 +94,8 @@ public final class Constants {
     public static final double kPostitionToleranceDegrees = .1;
     public static final double kVelocityToleranceDegreesPerSec = 1.0;
 
-    public static final double kMaxModuleAngularSpeedDegreesPerSecond =  30;
-    public static final double kMaxModuleAngularAccelDegreesPerSecondSquared = 30;
+    public static final double kMaxModuleAngularSpeedDegreesPerSecond =  30.0;
+    public static final double kMaxModuleAngularAccelDegreesPerSecondSquared = 30.0;
   }
 
   public static class SwerveModuleConstants {
@@ -116,19 +116,19 @@ public final class Constants {
     public static final double kIZoneModuleTurningController = 0.01;
   
     // Updated for this year
-    public static final double kAbsoluteTurningEncoderCPR = 4096;
-    public static final double kNeoEncoderCPR = 4096;
-    public static final double kMaxRPM = 5676;
+    public static final double kAbsoluteTurningEncoderCPR = 4096.0;
+    public static final double kNeoEncoderCPR = 4096.0;
+    public static final double kMaxRPM = 5676.0;
     public static final double kWheelDiameterMeters = 0.1016;
-    public static final double kDriveGearRatio = 6.75/1;
+    public static final double kDriveGearRatio = 6.75/1.0;
     public static final double kTurningGearRatio = 150.0/7.0; 
 
-    public static final double kTurningConversionFactor = 360 / kTurningGearRatio;
+    public static final double kTurningConversionFactor = 360.0 / kTurningGearRatio;
 
     public static final double kAbsoluteTurningEncoderCPRToDegrees = 
-    (kAbsoluteTurningEncoderCPR / kAbsoluteTurningEncoderCPR) * 360;  
+    (kAbsoluteTurningEncoderCPR / kAbsoluteTurningEncoderCPR) * 360.0;
 
-    public static final double kAbsoluteTurningEncoderCPRToDegreesMult = 360 / 4096;
+    public static final double kAbsoluteTurningEncoderCPRToDegreesMult = 360.0 / 4096.0;
 
     public static final double kRelativeTurningEncoderDegreesToCPRMult = kNeoEncoderCPR / 360;
     //((kNeoEncoderCPR / kNeoEncoderCPR) * 360) * kTurningGearRatio;
