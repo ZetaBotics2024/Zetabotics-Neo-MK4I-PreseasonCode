@@ -21,7 +21,6 @@ import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
  */
 public class FieldOrientedDriveCommand extends Command {
   private final DriveSubsystem m_driveSubsystem;
-  private final Supplier<Rotation2d> robotAngleSupplier;
   private final DoubleSupplier translationXSupplier;
   private final DoubleSupplier translationYSupplier;
   private final DoubleSupplier rotationSupplier;
@@ -39,12 +38,10 @@ public class FieldOrientedDriveCommand extends Command {
    */
   public FieldOrientedDriveCommand(
       DriveSubsystem m_driveSubsystem,
-      Supplier<Rotation2d> robotAngleSupplier,
       DoubleSupplier translationXSupplier,
       DoubleSupplier translationYSupplier,
       DoubleSupplier rotationSupplier) {
     this.m_driveSubsystem = m_driveSubsystem;
-    this.robotAngleSupplier = robotAngleSupplier;
     this.translationXSupplier = translationXSupplier;
     this.translationYSupplier = translationYSupplier;
     this.rotationSupplier = rotationSupplier;
@@ -63,7 +60,7 @@ public class FieldOrientedDriveCommand extends Command {
             this.translationXSupplier.getAsDouble() * SwerveDriveConstants.kMaxSpeedMetersPerSecond,
             this.translationYSupplier.getAsDouble() * SwerveDriveConstants.kMaxSpeedMetersPerSecond,
             this.rotationSupplier.getAsDouble() * SwerveDriveConstants.kMaxRotationAnglePerSecond, 
-            this.robotAngleSupplier.get()));
+            this.m_driveSubsystem.getPoseEstimatorSubsystem().getCurrentPose().getRotation()));
   }
 
   @Override

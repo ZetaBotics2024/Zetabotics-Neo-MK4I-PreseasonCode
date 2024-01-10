@@ -2,7 +2,13 @@ package frc.robot.subsystems.SwerveDrive;
 
 import java.util.stream.IntStream;
 
+import org.photonvision.PhotonCamera;
+
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.REVLibError;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -13,9 +19,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveDriveConstants;
+import frc.robot.Constants.VisionConstants;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -27,6 +37,7 @@ public class DriveSubsystem extends SubsystemBase {
     private final SwerveModule backRightSwerveModule;
 
     private Pigeon2 m_gyro;
+    private final PoseEstimatorSubsystem m_poseEstimatorSubsystem;
     //private Pose2d startingPosition = new Pose2d(0, 0, new Rotation2d(0));
 
     private final ProfiledPIDController turningPIDController; 
@@ -60,16 +71,43 @@ public class DriveSubsystem extends SubsystemBase {
 
         this.turningPIDController.setTolerance(SwerveDriveConstants.kPostitionToleranceDegrees, SwerveDriveConstants.kVelocityToleranceDegreesPerSec);
         this.turningPIDController.setIntegratorRange(-0.3, 0.3);
-        this.m_gyro.reset();
+        this.m_gyro.reset();  
 
-        SmartDashboard.updateValues();
+        this.m_poseEstimatorSubsystem = new PoseEstimatorSubsystem(new PhotonCamera(VisionConstants.cameraName), this);
+/*
+         AutoBuilder.configureHolonomic(
+                this::getPose, // Robot pose supplier
+                this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+                this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+                        4.5, // Max module speed, in m/s
+                        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                        new ReplanningConfig() // Default path replanning config. See the API for the options here
+                ),
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                this // Reference to this subsystem to set requirements
+        );
+ */
+        SmartDashboard.updateValues();    
     }
 
   @Override
   public void periodic() {
-    if (desiredChassisSpeeds != null) {
-      SwerveModuleState[] desiredStates = SwerveDriveConstants.kDriveKinematics.toSwerveModuleStates(desiredChassisSpeeds);
-     
+    if (desiredChassisSpeeds != null) {  
+          SwerveModuleState[] desiredStates = SwerveDriveConstants.kDriveKinematics.toSwerveModuleStates(desiredChassisSpeeds);   
       // If we're not trying to move, we lock the angles of the wheels
       if (desiredChassisSpeeds.vxMetersPerSecond == 0.0 && desiredChassisSpeeds.vyMetersPerSecond == 0.0
           && desiredChassisSpeeds.omegaRadiansPerSecond == 0.0) {
@@ -84,11 +122,11 @@ public class DriveSubsystem extends SubsystemBase {
     }
     // Resets the desiredChassisSpeeds to null to stop it from "sticking" to the last states
     desiredChassisSpeeds = null;
-    
     updateDashboard();
   }
 
   private void updateDashboard() {
+      // Real
       SmartDashboard.putNumber("FL MPS", this.frontLeftSwerveModule.getDriveMotorSpeedInMetersPerSecond());
       SmartDashboard.putNumber("FL Angle", this.frontLeftSwerveModule.getTurningEncoderAngleDegrees().getDegrees());
 
@@ -97,12 +135,15 @@ public class DriveSubsystem extends SubsystemBase {
 
       SmartDashboard.putNumber("BL MPS", this.backLeftSwerveModule.getDriveMotorSpeedInMetersPerSecond());
       SmartDashboard.putNumber("BL Angle", this.backLeftSwerveModule.getTurningEncoderAngleDegrees().getDegrees());
-      
+
       SmartDashboard.putNumber("BR MPS", this.backRightSwerveModule.getDriveMotorSpeedInMetersPerSecond());
       SmartDashboard.putNumber("BR Angle", this.backRightSwerveModule.getTurningEncoderAngleDegrees().getDegrees());
 
       SmartDashboard.putNumber("Robot Heading in Degrees", this.m_gyro.getAngle()); 
+  }
 
+  public PoseEstimatorSubsystem getPoseEstimatorSubsystem() {
+    return this.m_poseEstimatorSubsystem;
   }
 
   public SwerveModulePosition[] getModulePositions() {
@@ -133,14 +174,18 @@ public class DriveSubsystem extends SubsystemBase {
     this.frontRightSwerveModule.setDesiredState(desiredStates[1]);
     this.backLeftSwerveModule.setDesiredState(desiredStates[2]);
     this.backRightSwerveModule.setDesiredState(desiredStates[3]); 
-    
-    SmartDashboard.putNumber("FL Desired Angle", desiredStates[0].angle.getDegrees());
-    SmartDashboard.putNumber("FR Desired Angle", desiredStates[1].angle.getDegrees());
-    SmartDashboard.putNumber("BL Desired Angle", desiredStates[2].angle.getDegrees());
-    SmartDashboard.putNumber("BR Desired Angle", desiredStates[3].angle.getDegrees());
 
-    SmartDashboard.putNumber("FR Desired Velocity", desiredStates[1].speedMetersPerSecond);
-    SmartDashboard.putNumber("FR Actual Velocity", this.frontRightSwerveModule.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("FL Desired MPS", desiredStates[0].speedMetersPerSecond);
+    SmartDashboard.putNumber("FL Desired Angle", desiredStates[0].angle.getDegrees());
+
+    SmartDashboard.putNumber("FR Desired MPS", desiredStates[1].speedMetersPerSecond);
+    SmartDashboard.putNumber("FR Desired Angle", desiredStates[1].angle.getDegrees());
+
+    SmartDashboard.putNumber("BL Desired MPS", desiredStates[2].speedMetersPerSecond);
+    SmartDashboard.putNumber("BL Desired Angle", desiredStates[2].angle.getDegrees());
+
+    SmartDashboard.putNumber("BR Desired MPS", desiredStates[3].speedMetersPerSecond);
+    SmartDashboard.putNumber("BR Desired Angle", desiredStates[3].angle.getDegrees());
   }
 
   public ChassisSpeeds getChassisSpeeds() {

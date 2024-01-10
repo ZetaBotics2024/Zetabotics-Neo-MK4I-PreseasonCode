@@ -103,8 +103,8 @@ public final class Constants {
     public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 4 * 2 * Math.PI;
 
     // Set to the last years values
-    public static final double kPModuleDriveController = .0006;
-    public static final double kIModuleDriveController = 0;
+    public static final double kPModuleDriveController = 0.0003;
+    public static final double kIModuleDriveController = .00001;
     public static final double kDModuleDriveController = 0.0;
     public static final double kFModuleDriveController = 0.0;
     public static final double kIZoneModuleDriveController = 0.0;

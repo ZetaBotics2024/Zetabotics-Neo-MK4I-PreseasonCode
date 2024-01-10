@@ -84,7 +84,7 @@ public class SwerveModule{
     this.m_driveMotor.setSmartCurrentLimit(20);
     this.m_turningMotor.setSmartCurrentLimit(20);
 
-    this.turningRelativeEncoder.setVelocityConversionFactor(SwerveModuleConstants.kDriveConversionVelocityFactor);
+    //this.turningRelativeEncoder.setVelocityConversionFactor(SwerveModuleConstants.kDriveConversionVelocityFactor);
 
     this.drivingPIDController.setP(SwerveModuleConstants.kPModuleDriveController);
     this.drivingPIDController.setI(SwerveModuleConstants.kIModuleDriveController);
@@ -128,7 +128,7 @@ public class SwerveModule{
   }
 
   public Rotation2d getTurningEncoderAngleDegrees() {
-    return Rotation2d.fromDegrees(this.turningAbsoluteEncoder.getAbsolutePosition().getValueAsDouble() * 360);
+    return Rotation2d.fromDegrees(this.turningRelativeEncoder.getPosition() * 360 / SwerveModuleConstants.kTurningGearRatio);//this.turningAbsoluteEncoder.getAbsolutePosition().getValueAsDouble() * 360);
   };
 
   private void setHeadingInDegrees(Rotation2d optimizedDesiredRotation){
@@ -151,13 +151,14 @@ public class SwerveModule{
   }
 
   public double getDriveMotorSpeedInMetersPerSecond() {
-    return this.driveRelativeEncoder.getVelocity();
+    return this.driveRelativeEncoder.getVelocity() * SwerveModuleConstants.kDriveConversionVelocityFactor;
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
       SwerveModuleState state = SwerveModuleAngleOptimizer.optimize(desiredState, getTurningEncoderAngleDegrees());
 
-      m_driveMotor.getPIDController().setReference(state.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+      double desiredRPM = state.speedMetersPerSecond / SwerveModuleConstants.kDriveConversionVelocityFactor; 
+      this.drivingPIDController.setReference(desiredRPM, CANSparkMax.ControlType.kVelocity);
       this.setHeadingInDegrees(state.angle);
   }
   

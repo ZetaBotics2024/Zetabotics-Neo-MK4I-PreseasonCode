@@ -43,8 +43,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
 
   private final DriveSubsystem m_driveSubsystem;
-  private final PhotonCamera photonCamera;
-  private final PoseEstimatorSubsystem poseEstimator;
   private final LockSwerves lockSwerves;
   private final FieldOrientedDriveCommand fieldOrientedDriveCommand;
   private SendableChooser<Command> autoChooser;
@@ -53,13 +51,10 @@ public class RobotContainer {
 
   public RobotContainer() {
     this.m_driveSubsystem = new DriveSubsystem();
-    this.photonCamera = new PhotonCamera(VisionConstants.cameraName);
-    this.poseEstimator = new PoseEstimatorSubsystem(photonCamera, m_driveSubsystem);
     this.lockSwerves = new LockSwerves(m_driveSubsystem);
 
     this.fieldOrientedDriveCommand = new FieldOrientedDriveCommand(
       m_driveSubsystem,
-      () -> poseEstimator.getCurrentPose().getRotation(),
       () -> -modifyAxis(m_driverController.getLeftY()),
       () -> -modifyAxis(m_driverController.getLeftX()),
       () -> -modifyAxis(m_driverController.getRightX())
@@ -67,13 +62,16 @@ public class RobotContainer {
 
     m_driveSubsystem.setDefaultCommand(fieldOrientedDriveCommand);
 
-    Supplier<Pose2d> currentPoseSupplier = () -> poseEstimator.getCurrentPose();
+
+   
+    configureBindings();
+/* 
+    Supplier<Pose2d> currentPoseSupplier = () -> m_driveSubsystem.getCurrentPose();
     Consumer<Pose2d> resetPoseConsumer = (Pose2d) -> poseEstimator.setCurrentPose(Pose2d);
     Supplier<ChassisSpeeds> robotRelativeSpeedsSupplier = () -> m_driveSubsystem.getChassisSpeeds();
     Consumer<ChassisSpeeds> robotRelativeSpeedsConsumer = (newChassisSpeeds) -> m_driveSubsystem.setModuleStates(SwerveDriveConstants.kDriveKinematics.toSwerveModuleStates(newChassisSpeeds));
-/* 
     AutoBuilder.configureHolonomic(currentPoseSupplier, resetPoseConsumer, robotRelativeSpeedsSupplier, robotRelativeSpeedsConsumer, null, m_driveSubsystem);
-    configureBindings();
+
 
     NamedCommands.registerCommands(Constants.AutoConstants.namedEventMap);
 
@@ -112,6 +110,6 @@ public class RobotContainer {
   }
 
   public void onAllianceChanged(Alliance currentAlliance) {
-    poseEstimator.setAlliance(currentAlliance);
+    this.m_driveSubsystem.getPoseEstimatorSubsystem().setAlliance(currentAlliance);
   }
 }
