@@ -46,20 +46,20 @@ public final class Constants {
     public static final double kBackLeftTurnEncoderOffset = 0.688477;
     public static final double kBackRightTurnEncoderOffset = 0.837891;*/
 
-    public static final double kFrontLeftTurnEncoderOffset = 0.146240;
-    public static final double kFrontRightTurnEncoderOffset = 0.964111;
-    public static final double kBackLeftTurnEncoderOffset = 0.685547;
-    public static final double kBackRightTurnEncoderOffset = 0.837891;
+    public static final double kFrontLeftTurnEncoderOffset = 0.144531;//0.146240;
+    public static final double kFrontRightTurnEncoderOffset = 0.965820;//0.964111;
+    public static final double kBackLeftTurnEncoderOffset = 0.688965;//0.685547;
+    public static final double kBackRightTurnEncoderOffset = 0.837646;//0.837891;
 
     public static final double kFrontLeftTurnMagnetOffset = 0.629395;
     public static final double kFrontRightTurnMagnetOffset = 0.139160;
     public static final double kBackLeftTurnMagnetOffset = 0.326660;
     public static final double kBackRightTurnMagnetOffset = 0.567627;
 
-    public static final boolean kFrontLeftDriveMotorRev = true;
-    public static final boolean kFrontRightDriveMotorRev = true;
-    public static final boolean kBackLeftDriveMotorRev = true;
-    public static final boolean kBackRightDriveMotorRev = true;
+    public static final boolean kFrontLeftDriveMotorRev = false;
+    public static final boolean kFrontRightDriveMotorRev = false;
+    public static final boolean kBackLeftDriveMotorRev = false;
+    public static final boolean kBackRightDriveMotorRev = false;
 
     public static final boolean kFrontLeftTurnMotorRev = true;
     public static final boolean kFrontRightTurnMotorRev = true;
@@ -104,7 +104,7 @@ public final class Constants {
 
     // Set to the last years values
     public static final double kPModuleDriveController = 0.0003;
-    public static final double kIModuleDriveController = .00001;
+    public static final double kIModuleDriveController = .00000;
     public static final double kDModuleDriveController = 0.0;
     public static final double kFModuleDriveController = 0.0;
     public static final double kIZoneModuleDriveController = 0.0;

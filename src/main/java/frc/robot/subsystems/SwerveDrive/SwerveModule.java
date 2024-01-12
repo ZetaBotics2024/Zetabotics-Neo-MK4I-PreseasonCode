@@ -47,6 +47,8 @@ public class SwerveModule{
   private CANcoder turningAbsoluteEncoder;
   private RelativeEncoder turningRelativeEncoder;
 
+  private double absoluteEncoderOffset;
+
   public SwerveModule(int driveMotorId, int turningMotorId, int turningAbsoluteEncoderId, double turningEncoderOffset, double turningEncoderMagOffset, boolean driveMotorRev,
    boolean turnMotorRev) {
 
@@ -111,6 +113,7 @@ public class SwerveModule{
     this.turningAbsoluteEncoder.getConfigurator().apply(turningAbsoluteEncoderConfig);
     Timer.delay(1);
 
+    this.absoluteEncoderOffset = turningEncoderOffset;
     resetTurningMotorToAbsolute(turningEncoderOffset);
   }
 
@@ -143,7 +146,7 @@ public class SwerveModule{
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-        getDistance(), new Rotation2d(getTurningEncoderAngleRadiens()));
+        getDistance(), new Rotation2d((this.turningAbsoluteEncoder.getAbsolutePosition().getValueAsDouble() - this.absoluteEncoderOffset) * 360));
   }
 
   public SwerveModuleState getState() {
@@ -155,13 +158,13 @@ public class SwerveModule{
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
-      SwerveModuleState state = SwerveModuleAngleOptimizer.optimize(desiredState, getTurningEncoderAngleDegrees());
+      SwerveModuleState state = SwerveModuleAngleOptimizer.optimize(desiredState, getState().angle);
 
       double desiredRPM = state.speedMetersPerSecond / SwerveModuleConstants.kDriveConversionVelocityFactor; 
       this.drivingPIDController.setReference(desiredRPM, CANSparkMax.ControlType.kVelocity);
       this.setHeadingInDegrees(state.angle);
   }
-  
+
 }
  
 
